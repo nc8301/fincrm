@@ -2,7 +2,7 @@
 
 A small customer relationship management (CRM) web app for a fictional US bank, built so the security and compliance controls are part of the design from the first commit, not bolted on after.
 
-**Live app:** `<your deployed URL here>`  |  **Stack:** Python 3 · Flask · SQLite · Argon2id · server-rendered HTML (no JavaScript)
+**Live app:** `https://fincrm-4z51.onrender.com`  |  **Stack:** Python 3 · Flask · SQLite · Argon2id · server-rendered HTML (no JavaScript)
 
 ## Architecture
 
