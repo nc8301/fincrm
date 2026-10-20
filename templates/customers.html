@@ -1,0 +1,12 @@
+{% extends "base.html" %}{% block content %}
+<h1>Customers</h1>
+<form class="row" method="get"><input name="q" value="{{ q }}" placeholder="Search name or email" maxlength="100">
+<button type="submit">Search</button>
+{% if can('customer:create') %}<a class="btn secondary" href="{{ url_for('customer_new') }}">+ Add customer</a>{% endif %}</form>
+{% if not can('customer:view') %}<p class="mut">Your role sees masked personal data.</p>{% endif %}
+<table><tr><th>ID</th><th>Name</th><th>Email</th><th>Phone</th><th>Account</th><th>Status</th><th></th></tr>
+{% for c in rows %}<tr><td>{{ c.id }}</td><td>{{ c.full_name }}</td><td>{{ c.email }}</td><td>{{ c.phone }}</td>
+<td>{{ c.account_type }}</td><td><span class="tag">{{ c.status }}</span></td>
+<td><a href="{{ url_for('customer_detail', cid=c.id) }}">Open</a></td></tr>
+{% else %}<tr><td colspan="7" class="mut">No customers found.</td></tr>{% endfor %}</table>
+{% endblock %}

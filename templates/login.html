@@ -1,0 +1,11 @@
+{% extends "base.html" %}{% block content %}
+<div class="card login"><h1>FinCRM sign in</h1>
+{% if info %}<p class="notice">{{ info }}</p>{% endif %}
+{% if error %}<p class="error">{{ error }}</p>{% endif %}
+<form method="post" action="{{ url_for('login') }}" autocomplete="off">
+<input type="hidden" name="lcsrf" value="{{ lcsrf }}">
+<label for="u">Username</label><input id="u" name="username" required maxlength="64" autofocus>
+<label for="p">Password</label><input id="p" name="password" type="password" required maxlength="256">
+<p><button type="submit">Sign in</button></p></form>
+<p class="mut">Authorized use only. Activity is logged.</p></div>
+{% endblock %}

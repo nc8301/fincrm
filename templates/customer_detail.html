@@ -1,0 +1,10 @@
+{% extends "base.html" %}{% block content %}
+<h1>{{ c.full_name }}</h1>
+<div class="card"><dl>
+<dt>Customer ID</dt><dd>{{ c.id }}</dd><dt>Email</dt><dd>{{ c.email }}</dd><dt>Phone</dt><dd>{{ c.phone }}</dd>
+<dt>SSN (last 4)</dt><dd>{{ c.ssn_last4 }}</dd><dt>Account type</dt><dd>{{ c.account_type }}</dd>
+<dt>Credit limit</dt><dd>${{ '{:,}'.format(c.credit_limit) }}</dd><dt>Status</dt><dd><span class="tag">{{ c.status }}</span></dd>
+<dt>Created</dt><dd>{{ c.created_at }}</dd><dt>Last updated</dt><dd>{{ c.updated_at or '—' }}</dd></dl></div>
+<a class="btn secondary" href="{{ url_for('customers') }}">Back</a>
+{% if can('customer:update') %}<a class="btn" href="{{ url_for('customer_edit', cid=c.id) }}">Edit</a>{% endif %}
+{% endblock %}

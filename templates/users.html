@@ -1,0 +1,19 @@
+{% extends "base.html" %}{% block content %}
+<h1>User administration</h1>
+{% if errors %}<div class="error">{% for e in errors %}<div>{{ e }}</div>{% endfor %}</div>{% endif %}
+<table><tr><th>ID</th><th>Username</th><th>Role</th><th>Status</th><th>Actions</th></tr>
+{% for r in rows %}<tr><td>{{ r.id }}</td><td>{{ r.username }}</td><td>{{ r.role }}</td><td>{{ 'active' if r.active else 'disabled' }}</td>
+<td>{% if r.id != user['id'] %}
+<form class="row" style="margin:0" method="post" action="{{ url_for('user_update', uid=r.id) }}">
+<input type="hidden" name="csrf_token" value="{{ csrf }}">
+<select name="role">{% for ro in roles %}<option {{ 'selected' if ro==r.role }}>{{ ro }}</option>{% endfor %}</select>
+<button name="do" value="role" type="submit">Set role</button>
+<button class="secondary" name="do" value="toggle" type="submit">{{ 'Disable' if r.active else 'Enable' }}</button></form>
+{% else %}<span class="mut">(you)</span>{% endif %}</td></tr>{% endfor %}</table>
+<form class="card" method="post" style="margin-top:16px" autocomplete="off"><h2 style="margin-top:0;font-size:17px">Add user</h2>
+<input type="hidden" name="csrf_token" value="{{ csrf }}">
+<label>Username</label><input name="username" required maxlength="32">
+<label>Role</label><select name="role">{% for ro in roles %}<option>{{ ro }}</option>{% endfor %}</select>
+<label>Temporary password (min 12 characters)</label><input name="password" type="password" required minlength="12" maxlength="128">
+<p><button type="submit">Create user</button></p></form>
+{% endblock %}

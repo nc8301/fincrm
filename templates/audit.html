@@ -1,0 +1,13 @@
+{% extends "base.html" %}{% block content %}
+<h1>Audit log</h1>
+<form class="row" method="get">
+<select name="action"><option value="">All actions</option>{% for a in actions %}<option {{ 'selected' if a==action }}>{{ a }}</option>{% endfor %}</select>
+<label style="margin:0;font-weight:400"><input type="checkbox" name="risk" value="1" style="width:auto" {{ 'checked' if risky }}> High-risk &amp; failed logins only</label>
+<button type="submit">Filter</button>
+<a class="btn secondary" href="{{ url_for('audit_verify') }}">Verify log integrity</a></form>
+<p class="mut">Newest 200 entries. Entries are append-only and hash-chained.</p>
+<table><tr><th>#</th><th>Time (UTC)</th><th>Actor</th><th>Action</th><th>Target</th><th>Details</th><th>IP</th></tr>
+{% for r in rows %}<tr><td>{{ r.id }}</td><td>{{ r.ts }}</td><td>{{ r.actor_username or '—' }}<br><span class="mut">{{ r.role or '' }}</span></td>
+<td><span class="tag {{ 'risk' if r.action in ['LOGIN_FAILURE','LOGIN_LOCKOUT','ACCESS_DENIED','CUSTOMER_CREDIT_LIMIT_CHANGE','ROLE_CHANGE','USER_CREATE','USER_DISABLE','SESSION_EXPIRED','CSRF_REJECTED'] }}">{{ r.action }}</span></td>
+<td>{{ r.target_type or '' }} {{ r.target_id or '' }}</td><td class="mono">{{ r.details or '' }}</td><td class="mono">{{ r.ip or '' }}</td></tr>{% endfor %}</table>
+{% endblock %}

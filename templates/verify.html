@@ -1,0 +1,8 @@
+{% extends "base.html" %}{% block content %}
+<h1>Audit log integrity check</h1>
+<div class="card">
+{% if ok %}<p class="ok">PASS - all {{ count }} entries recompute correctly; no gaps, edits or reordering detected.</p>
+{% else %}<p class="bad">FAIL - chain broken at entry #{{ bad }} (after {{ count }} valid entries). Treat as a security incident.</p>{% endif %}
+<p>Head hash (record this externally to detect tail truncation):</p><p class="mono">{{ head }}</p></div>
+<a class="btn secondary" href="{{ url_for('audit') }}">Back to log</a>
+{% endblock %}

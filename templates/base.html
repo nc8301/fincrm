@@ -1,0 +1,17 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>FinCRM</title><link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}"></head>
+<body>
+{% if user %}
+<header><span class="brand">FinCRM</span>
+<nav>
+ {% if can('customer:view_masked') %}<a href="{{ url_for('customers') }}">Customers</a>{% endif %}
+ {% if can('audit:view') %}<a href="{{ url_for('audit') }}">Audit log</a>{% endif %}
+ {% if can('user:manage') %}<a href="{{ url_for('users') }}">Users</a>{% endif %}
+</nav>
+<form method="post" action="{{ url_for('logout') }}"><input type="hidden" name="csrf_token" value="{{ csrf }}">
+<button class="link" type="submit">Log out ({{ user['username'] }} · {{ user['role'] }})</button></form>
+</header>
+{% endif %}
+<main>{% if msg %}<p class="notice">{{ msg }}</p>{% endif %}{% block content %}{% endblock %}</main>
+</body></html>

@@ -1,0 +1,5 @@
+{% extends "base.html" %}{% block content %}
+<div class="card"><h1>{{ code }} · {{ name }}</h1>
+<p>{% if code == 403 %}You don't have permission to do that. This attempt has been logged.{% else %}Something went wrong with that request.{% endif %}</p>
+<p><a class="btn secondary" href="{{ url_for('index') }}">Back</a></p></div>
+{% endblock %}

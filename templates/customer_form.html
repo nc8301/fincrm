@@ -1,0 +1,17 @@
+{% extends "base.html" %}{% block content %}
+<h1>{{ 'Add customer' if new else 'Edit customer' }}</h1>
+{% if errors %}<div class="error">{% for e in errors %}<div>{{ e }}</div>{% endfor %}</div>{% endif %}
+<form class="card" method="post" autocomplete="off">
+<input type="hidden" name="csrf_token" value="{{ csrf }}">
+<label>Full name</label><input name="full_name" value="{{ c.full_name or '' }}" required maxlength="100">
+<label>Email</label><input name="email" type="email" value="{{ c.email or '' }}" required>
+<label>Phone</label><input name="phone" value="{{ c.phone or '' }}" required>
+<label>SSN last 4 (full SSN is never stored)</label><input name="ssn_last4" value="{{ c.ssn_last4 or '' }}" required pattern="\d{4}" maxlength="4">
+<label>Account type</label><select name="account_type">{% for t in ['checking','savings','credit','loan'] %}<option value="{{ t }}" {{ 'selected' if c.account_type==t }}>{{ t }}</option>{% endfor %}</select>
+<label>Credit limit ($)</label>
+{% if can('customer:set_credit') %}<input name="credit_limit" value="{{ c.credit_limit }}" inputmode="numeric">
+{% else %}<input value="{{ c.credit_limit }}" disabled><div class="mut">Only managers can set credit limits.</div>{% endif %}
+<label>Status</label><select name="status">{% for s in ['active','frozen','closed'] %}<option value="{{ s }}" {{ 'selected' if c.status==s }}>{{ s }}</option>{% endfor %}</select>
+<p><button type="submit">Save</button> <a class="btn secondary" href="{{ url_for('customers') }}">Cancel</a></p>
+</form>
+{% endblock %}
